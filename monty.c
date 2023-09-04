@@ -50,16 +50,14 @@ void execute_buffer(char *buffer)
 		print_error(2);
 		exit(EXIT_FAILURE);
 	}
-	opcode = strtok(buffer, " \t\n\r");
+	opcode = strtok(buffer, "\n ");
 
 	while (opcode != NULL)
 	{
-		arg = strtok(NULL, " \t\n\r");
-		printf("opcodes is (%s) and argument are %s\n", opcode, arg);
+		arg = strtok(NULL, "\n ");
 		is_stack = get_stack_or_queue(opcode, line_number, arg, is_stack);
 		line_number++;
 	}
-	free(buffer);
 }
 
 /**
