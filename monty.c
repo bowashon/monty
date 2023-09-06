@@ -43,7 +43,7 @@ void execute_buffer(char *buffer)
 {
 	unsigned int line_number = 1;
 	int is_stack = 1;
-	char *arg, *opcode, *token, *buffer_copy;
+	char *arg, *opcode, *buffer_copy;
 	
 	buffer_copy = strdup(buffer);
 	if (buffer_copy == NULL)
