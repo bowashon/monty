@@ -43,21 +43,24 @@ void execute_buffer(char *buffer)
 {
 	unsigned int line_number = 1;
 	int is_stack = 1;
-	char *arg, *opcode;
-
-	if (buffer == NULL)
+	char *arg, *opcode, *token, *buffer_copy;
+	
+	buffer_copy = strdup(buffer);
+	if (buffer_copy == NULL)
 	{
 		print_error(2);
 		exit(EXIT_FAILURE);
 	}
-	opcode = strtok(buffer, "\n ");
+	opcode = strtok(buffer_copy, "\n ");
+	arg = strtok(NULL, "\n ");
 
 	while (opcode != NULL)
 	{
-		arg = strtok(NULL, "\n ");
+		
 		is_stack = get_stack_or_queue(opcode, line_number, arg, is_stack);
 		line_number++;
 	}
+	free(buffer_copy);
 }
 
 /**
