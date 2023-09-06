@@ -17,6 +17,11 @@ char *read_file_content(char *filename)
 		exit(EXIT_FAILURE);
 	}
 	fd = fopen(filename, "r");
+	if (fd == NULL)
+	{
+		print_error(2, filename);
+		exit(EXIT_FAILURE);
+	}
 
 	while ((nread = getline(&buffer, &len, fd)) != -1)
 	{
@@ -43,7 +48,8 @@ void execute_buffer(char *buffer)
 {
 	unsigned int line_number = 1;
 	int is_stack = 1;
-	char *arg, *opcode, *buffer_copy;
+	char *arg, *opcode, *token, *buffer_copy;
+	size_t opcode_end, arg_start;
 	
 	buffer_copy = strdup(buffer);
 	if (buffer_copy == NULL)
@@ -51,13 +57,29 @@ void execute_buffer(char *buffer)
 		print_error(2);
 		exit(EXIT_FAILURE);
 	}
-	opcode = strtok(buffer_copy, "\n ");
-	arg = strtok(NULL, "\n ");
+	token = strtok(buffer_copy, "\n");
 
-	while (opcode != NULL)
+	while (token != NULL)
 	{
-		
+		opcode_end = strspn(token, " ");
+		arg_start = opcode_end + strcspn(&token[opcode_end], " ");
+
+		opcode = strndup(token + opcode_end, arg_start - opcode_end);
+		if (arg_start < strlen(token))
+		{
+			arg = strdup(token + arg_start);
+		}
+		else
+		{
+			arg = NULL;
+		}
+
 		is_stack = get_stack_or_queue(opcode, line_number, arg, is_stack);
+
+		token = strtok(NULL, " ");
+		free(opcode);
+		free(arg);
+	
 		line_number++;
 	}
 	free(buffer_copy);
