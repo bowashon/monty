@@ -44,25 +44,17 @@ char *read_file_content(char *filename)
 void execute_buffer(char *buffer, int line_number)
 {
 	int is_stack = 1;
-	char *arg, *opcode, *line, *buffer_copy;
+	char *arg, *opcode, *buffer_copy;
 
 	buffer_copy = strdup(buffer);
-	opcode = strtok(buffer_copy, "\t\n ");
+	opcode = strtok(buffer_copy, "\n ");
 
 	while (opcode != NULL)
 	{
-		line = strtok(NULL, "\t\n ");
-		if (line != NULL)
-		{
-			arg = (line);
-		}
-		else
-		{
-			arg = NULL;
-		}
+		arg = strtok(NULL, "\n ");
 
 		is_stack = get_stack_or_queue(opcode, line_number, arg, is_stack);
-		opcode = strtok(NULL, " ");
+		opcode = strtok(NULL, "\n ");
 	}
 	free(buffer_copy);
 }
