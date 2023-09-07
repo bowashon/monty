@@ -10,22 +10,19 @@ char *read_file_content(char *filename)
 	char *buffer = NULL;
 	ssize_t nread, size = 0;
 	size_t len = 0;
-	
+
 	if (filename == NULL)
 	{
 		print_error(1);
 		exit(EXIT_FAILURE);
 	}
 	fd = fopen(filename, "r");
-	if (fd == NULL)
-	{
-		print_error(2, filename);
-		exit(EXIT_FAILURE);
-	}
 
 	while ((nread = getline(&buffer, &len, fd)) != -1)
 	{
-		size += nread;
+		execute_buffer(buffer);
+		size++;
+
 	}
 
 	if (size == 0)
@@ -46,28 +43,19 @@ char *read_file_content(char *filename)
  */
 void execute_buffer(char *buffer)
 {
-	unsigned int line_number = 1;
+	int line_number = 1;
 	int is_stack = 1;
-	char *arg, *opcode, *token, *buffer_copy;
-	size_t opcode_end, arg_start;
-	
+	char *arg, *opcode, *line, *buffer_copy;
+
 	buffer_copy = strdup(buffer);
-	if (buffer_copy == NULL)
-	{
-		print_error(2);
-		exit(EXIT_FAILURE);
-	}
-	token = strtok(buffer_copy, "\n");
+	opcode = strtok(buffer_copy, " \t\n");
 
-	while (token != NULL)
+	while (opcode != NULL)
 	{
-		opcode_end = strspn(token, " ");
-		arg_start = opcode_end + strcspn(&token[opcode_end], " ");
-
-		opcode = strndup(token + opcode_end, arg_start - opcode_end);
-		if (arg_start < strlen(token))
+		line = strtok(NULL, "\t\n ");
+		if (line != NULL)
 		{
-			arg = strdup(token + arg_start);
+			arg = strtrim(line);
 		}
 		else
 		{
@@ -75,15 +63,43 @@ void execute_buffer(char *buffer)
 		}
 
 		is_stack = get_stack_or_queue(opcode, line_number, arg, is_stack);
-
-		token = strtok(NULL, " ");
-		free(opcode);
-		free(arg);
-	
 		line_number++;
+		opcode = strtok(NULL, "\t\n ");
 	}
 	free(buffer_copy);
 }
+
+
+/**
+ * strtrim - function that trims a string to remove spaces
+ * @str: points to the string
+ * Return: return the trimed string
+ */
+char *strtrim(char *str)
+{
+	char *end;
+
+	if (str == NULL)
+	{
+		return (NULL);
+	}
+	while (isspace(*str) || *str == '\n')
+	{
+		str++;
+	}
+	if (*str == '\0')
+	{
+		return (str);
+	}
+	end = str + strlen(str) - 1;
+	while (end > str && (isspace(*end) || *end == '\n'))
+	{
+		end--;
+	}
+	*(end + 1) = '\0';
+	return (str);
+}
+
 
 /**
  * get_stack_or_queue - function that checks if operation is to be done on
@@ -97,7 +113,6 @@ void execute_buffer(char *buffer)
 int get_stack_or_queue(char *opcode, unsigned int line_number,
 char *arg, int is_stack)
 {
-
 	if (strcmp(opcode, "stack") == 0)
 	{
 		return (1);
@@ -120,7 +135,7 @@ char *arg, int is_stack)
  */
 void get_func(char *opcode, unsigned int ln, char *arg, int is_stack)
 {
-	int i, flag = 0;
+	int i, flag = 1;
 
 	instruction_t opcodes_func[] = {
 	{"push", push_to_stack},
@@ -135,8 +150,6 @@ void get_func(char *opcode, unsigned int ln, char *arg, int is_stack)
 
 	while (opcode)
 	{
-		flag = 1;
-
 		for (i = 0; opcodes_func[i].opcode != NULL; i++)
 		{
 			if (strcmp(opcodes_func[i].opcode, opcode) == 0)
@@ -147,9 +160,9 @@ void get_func(char *opcode, unsigned int ln, char *arg, int is_stack)
 		}
 		opcode = strtok(NULL, "\n");
 	}
+
 	if (flag == 1)
 	{
 		print_error(3, ln, opcode);
-		exit(EXIT_FAILURE);
 	}
 }

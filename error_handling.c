@@ -32,7 +32,7 @@ void print_error(int error, ...)
 		{
 			ln_num = va_arg(user, int);
 			opcode = va_arg(user, char *);
-			fprintf(stderr, "%d: unknown instruction %s\n", ln_num, opcode);
+			fprintf(stderr, "L%d: unknown instruction %s\n", ln_num, opcode);
 			break;
 		}
 		else if (error == 4)

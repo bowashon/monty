@@ -38,7 +38,9 @@ typedef struct instruction_s
 } instruction_t;
 
 extern stack_t *head;
+extern stack_t *new_node;
 
+char *strtrim(char *str);
 void print_error(int error, ...);
 typedef void (*fun)(stack_t **stack, unsigned int line_number);
 
@@ -58,3 +60,4 @@ void push_to_queue(stack_t **new_node, __attribute__((unused))
 unsigned int line_number);
 
 #endif /**** monty header *****/
+

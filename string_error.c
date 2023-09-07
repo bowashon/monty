@@ -58,6 +58,7 @@ void _func(fun func, char *opcode, char *arg, int lin_num, int is_stack)
 	int sign = 1;
 	int i = 0;
 	stack_t *node;
+	stack_t *head;
 
 	if (strcmp(opcode, "push") == 0)
 	{
@@ -80,9 +81,9 @@ void _func(fun func, char *opcode, char *arg, int lin_num, int is_stack)
 			}
 			i++;
 		}
-		node = create_new_node((arg[i] - '0') * sign);
+		node = create_new_node(atoi(arg) * sign);
 		if (is_stack == 1)
-			func(&node, lin_num);
+			push_to_stack(&node, lin_num);
 		else if (!is_stack)
 			push_to_queue(&node, lin_num);
 	}

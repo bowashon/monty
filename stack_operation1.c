@@ -7,6 +7,8 @@
  * @n: data element in the new_node
  * Return: retunr the address of the new node created
  */
+stack_t *head = NULL;
+
 stack_t *create_new_node(int n)
 {
 	stack_t *new_node;
@@ -26,7 +28,6 @@ stack_t *create_new_node(int n)
 }
 
 
-
 /**
  * push_to_stack - function that push new node created to the stack
  * @new_node: now node to be pushed
@@ -35,19 +36,26 @@ stack_t *create_new_node(int n)
 void push_to_stack(stack_t **new_node, __attribute__((unused))
 unsigned int line_number)
 {
+	stack_t *temp;
+
+	printf("%d\n", (*new_node)->n);
 	if (*new_node == NULL)
 	{
 		print_error(5, line_number);
 		exit(EXIT_FAILURE);
 	}
-	(*new_node)->next = head;
-	(*new_node)->prev = NULL;
 
 	if (head != NULL)
 	{
-		head->prev = *new_node;
+		temp = head;
+		head = *new_node;
+		head->next = temp;
+		temp->prev = head;
 	}
-	head = *new_node;
+	else
+	{
+		head = *new_node;
+	}
 }
 
 
