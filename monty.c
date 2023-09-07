@@ -8,8 +8,9 @@ char *read_file_content(char *filename)
 {
 	FILE *fd;
 	char *buffer = NULL;
-	ssize_t nread, size = 0;
+	ssize_t nread;
 	size_t len = 0;
+	int line_number = 1;
 
 	if (filename == NULL)
 	{
@@ -18,14 +19,13 @@ char *read_file_content(char *filename)
 	}
 	fd = fopen(filename, "r");
 
-	while ((nread = getline(&buffer, &len, fd)) != -1)
+	for (line_number = 1; (nread = getline(&buffer, &len, fd)) != -1; line_number++)
 	{
-		execute_buffer(buffer);
-		size++;
+		execute_buffer(buffer, line_number);
 
 	}
 
-	if (size == 0)
+	if (line_number == 0)
 	{
 		print_error(1);
 		exit(EXIT_FAILURE);
@@ -41,21 +41,20 @@ char *read_file_content(char *filename)
  * execute_buffer - function that execute buffer
  * @buffer: buffer to execute
  */
-void execute_buffer(char *buffer)
+void execute_buffer(char *buffer, int line_number)
 {
-	int line_number = 1;
 	int is_stack = 1;
 	char *arg, *opcode, *line, *buffer_copy;
 
 	buffer_copy = strdup(buffer);
-	opcode = strtok(buffer_copy, " \t\n");
+	opcode = strtok(buffer_copy, "\t\n ");
 
 	while (opcode != NULL)
 	{
 		line = strtok(NULL, "\t\n ");
 		if (line != NULL)
 		{
-			arg = strtrim(line);
+			arg = (line);
 		}
 		else
 		{
@@ -63,42 +62,12 @@ void execute_buffer(char *buffer)
 		}
 
 		is_stack = get_stack_or_queue(opcode, line_number, arg, is_stack);
-		line_number++;
-		opcode = strtok(NULL, "\t\n ");
+		opcode = strtok(NULL, " ");
 	}
 	free(buffer_copy);
 }
 
 
-/**
- * strtrim - function that trims a string to remove spaces
- * @str: points to the string
- * Return: return the trimed string
- */
-char *strtrim(char *str)
-{
-	char *end;
-
-	if (str == NULL)
-	{
-		return (NULL);
-	}
-	while (isspace(*str) || *str == '\n')
-	{
-		str++;
-	}
-	if (*str == '\0')
-	{
-		return (str);
-	}
-	end = str + strlen(str) - 1;
-	while (end > str && (isspace(*end) || *end == '\n'))
-	{
-		end--;
-	}
-	*(end + 1) = '\0';
-	return (str);
-}
 
 
 /**
