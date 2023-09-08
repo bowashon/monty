@@ -8,7 +8,6 @@
  * Return: retunr the address of the new node created
  */
 stack_t *head = NULL;
-
 stack_t *create_new_node(int n)
 {
 	stack_t *new_node;
@@ -70,7 +69,8 @@ void print_stack_element(stack_t **head, unsigned int line_number)
 	stack_t *current;
 
 	(void)line_number;
-	current = (*head);
+
+	current = *head;
 
 	while (current != NULL)
 	{

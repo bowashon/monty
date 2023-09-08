@@ -2,9 +2,8 @@
 /**
  * read_file_content - function that reads a file from the stdin
  * @filename: pointer to the input file
- * Return: return buffer of the file read
  */
-char *read_file_content(char *filename)
+void read_file_content(char *filename)
 {
 	FILE *fd;
 	char *buffer = NULL;
@@ -19,7 +18,8 @@ char *read_file_content(char *filename)
 	}
 	fd = fopen(filename, "r");
 
-	for (line_number = 1; (nread = getline(&buffer, &len, fd)) != -1; line_number++)
+	for (line_number = 1; (nread = getline(&buffer, &len, fd)) != -1;
+	line_number++)
 	{
 		execute_buffer(buffer, line_number);
 
@@ -32,7 +32,6 @@ char *read_file_content(char *filename)
 	}
 	fclose(fd);
 
-	return (buffer);
 }
 
 
@@ -40,6 +39,7 @@ char *read_file_content(char *filename)
 /**
  * execute_buffer - function that execute buffer
  * @buffer: buffer to execute
+ * @line_number: keeps track of the line being proccessed
  */
 void execute_buffer(char *buffer, int line_number)
 {
@@ -54,7 +54,6 @@ void execute_buffer(char *buffer, int line_number)
 		arg = strtok(NULL, "\n ");
 
 		is_stack = get_stack_or_queue(opcode, line_number, arg, is_stack);
-		opcode = strtok(NULL, "\n ");
 	}
 	free(buffer_copy);
 }

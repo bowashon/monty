@@ -58,7 +58,6 @@ void _func(fun func, char *opcode, char *arg, int lin_num, int is_stack)
 	int sign = 1;
 	int i = 0;
 	stack_t *node;
-	stack_t *head;
 
 	if (strcmp(opcode, "push") == 0)
 	{

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "monty.h"
+
 /**
  * main - check the code
  * @argc: command line arguments passed
@@ -10,7 +11,6 @@
 int main(int argc, char *argv[])
 {
 	char *filename;
-	char *buffer;
 
 	if (argc != 2)
 	{
@@ -18,9 +18,8 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	filename = argv[1];
-	buffer = read_file_content(filename);
+	read_file_content(filename);
 
-	free(buffer);
 
 	exit(EXIT_SUCCESS);
 }
