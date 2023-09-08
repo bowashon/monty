@@ -54,6 +54,7 @@ void execute_buffer(char *buffer, int line_number)
 		arg = strtok(NULL, "\n ");
 
 		is_stack = get_stack_or_queue(opcode, line_number, arg, is_stack);
+		opcode = strtok(NULL, "\n ");
 	}
 	free(buffer_copy);
 }
