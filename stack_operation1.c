@@ -16,7 +16,6 @@ stack_t *create_new_node(int n)
 	if (new_node == NULL)
 	{
 		print_error(4);
-		free(new_node);
 		exit(EXIT_FAILURE);
 	}
 	new_node->n = n;
