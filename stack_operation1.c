@@ -72,12 +72,14 @@ void print_stack_element(stack_t **head, unsigned int line_number)
 
 	current = *head;
 
-	if (*head == NULL)
-		exit(EXIT_FAILURE);
+	while (current != NULL && current->next != NULL)
+	{
+		current = current->next;
+	}
 	while (current != NULL)
 	{
 		printf("%d\n", current->n);
-		current = current->next;
+		current = current->prev;
 	}
 }
 
