@@ -17,6 +17,11 @@ void read_file_content(char *filename)
 		exit(EXIT_FAILURE);
 	}
 	fd = fopen(filename, "r");
+	if (fd == NULL)
+	{
+		print_error(2, filename);
+		exit(EXIT_FAILURE);
+	}
 
 	for (line_number = 1; (nread = getline(&buffer, &len, fd)) != -1;
 	line_number++)
