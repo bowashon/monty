@@ -53,6 +53,7 @@ unsigned int line_number)
 	else
 	{
 		head = *new_node;
+		return;
 	}
 }
 
@@ -71,6 +72,8 @@ void print_stack_element(stack_t **head, unsigned int line_number)
 
 	current = *head;
 
+	if (*head == NULL)
+		exit(EXIT_FAILURE);
 	while (current != NULL)
 	{
 		printf("%d\n", current->n);
