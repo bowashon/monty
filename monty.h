@@ -57,6 +57,7 @@ void _func(fun func, char *opcode, char *arg, int lin_num, int is_stack);
 void print_stack_element(stack_t **head, unsigned int line_number);
 void push_to_queue(stack_t **new_node, __attribute__((unused))
 unsigned int line_number);
+void free_node(stack_t **head);
 
 #endif /**** monty header *****/
 

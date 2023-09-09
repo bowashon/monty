@@ -20,6 +20,6 @@ int main(int argc, char *argv[])
 	filename = argv[1];
 	read_file_content(filename);
 
-
+	free_node(&head);
 	exit(EXIT_SUCCESS);
 }

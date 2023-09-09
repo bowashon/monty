@@ -81,6 +81,7 @@ void print_stack_element(stack_t **head, unsigned int line_number)
 		printf("%d\n", current->n);
 		current = current->prev;
 	}
+	free(current);
 }
 
 
