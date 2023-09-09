@@ -18,7 +18,10 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	filename = argv[1];
-	read_file_content(filename);
+	while (1)
+	{
+		read_file_content(filename);
+	}
 
 
 	exit(EXIT_SUCCESS);

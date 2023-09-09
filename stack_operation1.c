@@ -37,7 +37,6 @@ unsigned int line_number)
 {
 	stack_t *temp;
 
-	printf("%d\n", (*new_node)->n);
 	if (*new_node == NULL)
 	{
 		print_error(5, line_number);

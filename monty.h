@@ -47,9 +47,7 @@ typedef void (*fun)(stack_t **stack, unsigned int line_number);
 
 /********file operation******/
 void read_file_content(char *filename);
-void execute_buffer(char *buffer, int line_number);
-int get_stack_or_queue(char *opcode, unsigned int line_number,
-char *arg, int is_stack);
+int execute_buffer(char *buffer, int line_number);
 void get_func(char *opcode, unsigned int ln, char *arg, int is_stack);
 
 /*****stack operations*******/

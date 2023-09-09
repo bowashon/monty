@@ -31,6 +31,7 @@ void read_file_content(char *filename)
 		exit(EXIT_FAILURE);
 	}
 	fclose(fd);
+	free(buffer);
 
 }
 
@@ -41,48 +42,31 @@ void read_file_content(char *filename)
  * @buffer: buffer to execute
  * @line_number: keeps track of the line being proccessed
  */
-void execute_buffer(char *buffer, int line_number)
+int execute_buffer(char *buffer, int line_number)
 {
-	int is_stack = 1;
-	char *arg, *opcode, *buffer_copy;
+	int is_stack = 0;
+	char *arg, *opcode;
 
-	buffer_copy = strdup(buffer);
-	opcode = strtok(buffer_copy, "\n ");
+	opcode = strtok(buffer, "\n ");
 
-	while (opcode != NULL)
+	if (opcode == NULL)
 	{
-		arg = strtok(NULL, "\n ");
-
-		is_stack = get_stack_or_queue(opcode, line_number, arg, is_stack);
-		opcode = strtok(NULL, "\n ");
+		return (is_stack);
 	}
-	free(buffer_copy);
-}
+	arg = strtok(NULL, "\n ");
 
-
-
-
-/**
- * get_stack_or_queue - function that checks if operation is to be done on
- * either stack or queue
- * @line_number: the line at which code is processed
- * @arg: argument in the opcode
- * @is_stack: detemine
- * @opcode: operation codes
- * Return: return 1 for stack operation and 0 for queue operation
- */
-int get_stack_or_queue(char *opcode, unsigned int line_number,
-char *arg, int is_stack)
-{
 	if (strcmp(opcode, "stack") == 0)
 	{
-		return (1);
+		is_stack = 1;
+		return (is_stack);
 	}
-	else if (strcmp(opcode, "queue") == 0)
+	if (strcmp(opcode, "queue") == 0)
 	{
-		return (0);
+		is_stack = 0;
+		return (is_stack);
 	}
 	get_func(opcode, line_number, arg, is_stack);
+
 	return (is_stack);
 }
 
@@ -109,17 +93,13 @@ void get_func(char *opcode, unsigned int ln, char *arg, int is_stack)
 		return;
 	}
 
-	while (opcode)
+	for (i = 0; opcodes_func[i].opcode != NULL; i++)
 	{
-		for (i = 0; opcodes_func[i].opcode != NULL; i++)
+		if (strcmp(opcodes_func[i].opcode, opcode) == 0)
 		{
-			if (strcmp(opcodes_func[i].opcode, opcode) == 0)
-			{
-				_func(opcodes_func[i].f, opcode, arg, ln, is_stack);
-				flag = 0;
-			}
+			_func(opcodes_func[i].f, opcode, arg, ln, is_stack);
+			flag = 0;
 		}
-		opcode = strtok(NULL, "\n");
 	}
 
 	if (flag == 1)
