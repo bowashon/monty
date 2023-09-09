@@ -44,7 +44,7 @@ extern stack_t *head;
 char *strtrim(char *str);
 void print_error(int error, ...);
 typedef void (*fun)(stack_t **stack, unsigned int line_number);
-
+void string_error(int error_num, ...);
 /********file operation******/
 void read_file_content(char *filename);
 int execute_buffer(char *buffer, int line_number);
@@ -58,6 +58,8 @@ void print_stack_element(stack_t **head, unsigned int line_number);
 void push_to_queue(stack_t **new_node, __attribute__((unused))
 unsigned int line_number);
 void free_node(stack_t **head);
-
+/*******stack operation2*********/
+void print_top_element(stack_t **head, unsigned int line_number);
+void pop_top(stack_t **head, unsigned int line_number);
 #endif /**** monty header *****/
 

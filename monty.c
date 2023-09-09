@@ -46,6 +46,7 @@ void read_file_content(char *filename)
  * execute_buffer - function that execute buffer
  * @buffer: buffer to execute
  * @line_number: keeps track of the line being proccessed
+ * Return: return 1 if stack operation or 0 if otherwise
  */
 int execute_buffer(char *buffer, int line_number)
 {
@@ -90,6 +91,8 @@ void get_func(char *opcode, unsigned int ln, char *arg, int is_stack)
 	instruction_t opcodes_func[] = {
 	{"push", push_to_stack},
 	{"pall", print_stack_element},
+	{"pint", print_top_element},
+	{"pop", pop_top},
 	{NULL, NULL}
 	};
 

@@ -3,7 +3,7 @@
  * _string_error - prints error to the stdout
  * @error_num: number to call error
  */
-void _string_error(int error_num, ...)
+void string_error(int error_num, ...)
 {
 	va_list user;
 	int line_number;
@@ -68,14 +68,14 @@ void _func(fun func, char *opcode, char *arg, int lin_num, int is_stack)
 		}
 		if (arg == NULL)
 		{
-			_string_error(5, lin_num);
+			string_error(5, lin_num);
 			exit(EXIT_FAILURE);
 		}
 		while (arg[i] != '\0')
 		{
 			if (!(isdigit(arg[i])))
 			{
-				_string_error(5, lin_num);
+				string_error(5, lin_num);
 				exit(EXIT_FAILURE);
 			}
 			i++;
